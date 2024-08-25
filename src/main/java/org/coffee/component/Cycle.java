@@ -21,7 +21,7 @@ public class Cycle {
     }
 
     public void allowTraffic() {
-        if (isConditionalRouteAllowsTraffic()) {
+        if (isAllowingConditionalTraffic()) {
             stopTrafficForConditionalRoutes();
         }
         List<CompletableFuture<Void>> futures = routes.stream()
@@ -50,7 +50,7 @@ public class Cycle {
     }
 
     public void allowTrafficForConditionalRoutes() {
-        if (isNormalTrafficAllowed()) {
+        if (isAllowingNormalTraffic()) {
             throw new IllegalStateException("Normal traffic is going, cannot allow conditional routes");
         }
         List<CompletableFuture<Void>> futures = routes.stream()
@@ -68,13 +68,13 @@ public class Cycle {
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
     }
 
-    private boolean isNormalTrafficAllowed() {
+    private boolean isAllowingNormalTraffic() {
         return routes.stream()
                 .filter(route -> !route.getType().equals(CONDITIONAL))
                 .anyMatch(Route::isAllowingTraffic);
     }
 
-    private boolean isConditionalRouteAllowsTraffic() {
+    private boolean isAllowingConditionalTraffic() {
         return routes.stream()
                 .filter(route -> route.getType().equals(CONDITIONAL))
                 .anyMatch(Route::isAllowingTraffic);

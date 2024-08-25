@@ -70,17 +70,21 @@ public class Intersection {
 
     private void validateCycles() throws IllegalStateException {
        cycles.forEach(cycle -> {
-           var firstRoute = cycle.getRoutes().stream()
-                   .findFirst()
-                   .orElseThrow(() -> new IllegalArgumentException("Cycle " + cycle.getId() + " does not contain any routes"));
-           var goodRoutes = collisionMatrix.get(firstRoute);
-           var routesNotCollides = cycle.getRoutes().stream()
-                   .filter(route -> route != firstRoute)
-                   .allMatch(goodRoutes::contains);
-           if (!routesNotCollides) {
-               throw new IllegalStateException("Cycle " + cycle.getId() + " contains routes that cannot be green at the same time");
+           if (cycle.getRoutes().isEmpty()) {
+               throw new IllegalStateException("Cycle " + cycle.getId() + " does not contain any routes");
            }
+           cycle.getRoutes().forEach(route -> validateRouteInCycle(cycle, route));
        });
+    }
+
+    private void validateRouteInCycle(Cycle cycle, Route route) {
+        var goodRoutes = collisionMatrix.get(route);
+        var routesNotCollides = cycle.getRoutes().stream()
+                .filter(r -> r != route)
+                .allMatch(goodRoutes::contains);
+        if (!routesNotCollides) {
+            throw new IllegalStateException("Cycle " + cycle.getId() + " contains routes that cannot be green at the same time");
+        }
     }
 
     public int updateState() throws InterruptedException {
