@@ -1,16 +1,16 @@
 package org.coffee;
 
-import org.coffee.component.IncorrectRoutesException;
-import org.coffee.component.Intersection;
+import org.coffee.component.cycle.IncorrectRoutesException;
+import org.coffee.component.intersection.Intersection;
 
-import static org.coffee.utils.IntersectionComponentsCreator.createIntersection;
+import static org.coffee.utils.IntersectionComponentsCreator.createComplexIntersection;
 
 public class Main {
     public static void main(String[] args) {
 
         Intersection intersection;
         try {
-            intersection = createIntersection();
+            intersection = createComplexIntersection();
         } catch (IncorrectRoutesException e) {
             System.out.println(e.getMessage());
             return;
@@ -29,12 +29,13 @@ public class Main {
                 break;
             } catch (InterruptedException e) {
                 System.out.println("Thread was interrupted, Failed to updateState on intersection:" + intersection.getName());
-                Thread.currentThread().interrupt();
+                break;
             } catch (Exception e) {
                 System.out.println("Error running intersection: " + e.getMessage());
+                break;
             }
         }
-        System.out.println("Intersection " + intersection.getName() + " has finished, set to blinking yellow");
+        System.out.println("Intersection " + intersection.getName() + " has disabled, set to blinking yellow");
         intersection.defaultSignal();
     }
 }

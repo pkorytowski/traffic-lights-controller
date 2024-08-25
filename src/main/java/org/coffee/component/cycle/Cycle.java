@@ -1,4 +1,4 @@
-package org.coffee.component;
+package org.coffee.component.cycle;
 
 import lombok.Getter;
 import org.coffee.component.route.Route;

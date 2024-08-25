@@ -1,12 +1,12 @@
-package org.coffee.component;
+package org.coffee.component.intersection;
 
 import lombok.Getter;
+import org.coffee.component.cycle.IncorrectRoutesException;
 import org.coffee.component.attribute.WorkingMode;
+import org.coffee.component.cycle.Cycle;
 import org.coffee.component.route.Route;
 import org.coffee.component.route.RouteValidator;
-import org.coffee.utils.IntersectionUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,12 +24,11 @@ public class Intersection {
     private final String name;
     private final List<Route> routes;
     private final List<Cycle> cycles;
+    private final WorkingMode workingMode;
 
     private Map<Route, List<Route>> collisionMatrix;
-    private List<Route> greenRoutes;
     private Queue<Cycle> cycleQueue;
     private Cycle currentCycle;
-    private WorkingMode workingMode;
 
     public Intersection(String id, String name, List<Route> routes, List<Cycle> cycles, WorkingMode workingMode) throws IncorrectRoutesException {
         this.id = id;
@@ -61,7 +60,6 @@ public class Intersection {
         cycleQueue = new LinkedList<>(cycles);
         System.out.println("Intersection " + name + " initialized");
         System.out.println("Numbers of routes in queue: " + cycleQueue.size());
-        greenRoutes = new ArrayList<>();
     }
 
     private void validateRoutes() {

@@ -16,7 +16,6 @@ public class RouteValidator {
         validateHasAtLeastOneInboundLane(route);
         validateHasAtLeastOneOutboundLane(route);
         validateHasAtLeastOneTrafficLight(route);
-        route.getPedestrianLanes().forEach(pedestrianLane -> validatePedestrianLaneNotCrossInboundLane(route, pedestrianLane));
 
         switch (route.getType()) {
             case NORMAL -> validateNormalRoute(route);
@@ -60,6 +59,7 @@ public class RouteValidator {
     }
 
     private static void validateNormalRoute(Route route) {
+        route.getPedestrianLanes().forEach(pedestrianLane -> validatePedestrianLaneNotCrossInboundLane(route, pedestrianLane));
         LaneOutbound straightLane = findStraightLane(route);
         if (straightLane != null) {
             route.getPedestrianLanes().forEach(pedestrianLane -> {
@@ -109,6 +109,7 @@ public class RouteValidator {
     }
 
     private static void validateGradeSeparatedRoute(Route route) {
+        route.getPedestrianLanes().forEach(pedestrianLane -> validatePedestrianLaneNotCrossInboundLane(route, pedestrianLane));
         route.getPedestrianLanes().forEach(pedestrianLane -> validatePedestrianLaneNotCrossOutboundLane(route, pedestrianLane));
     }
 }

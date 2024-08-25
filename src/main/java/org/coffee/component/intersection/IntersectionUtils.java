@@ -1,4 +1,4 @@
-package org.coffee.utils;
+package org.coffee.component.intersection;
 
 import org.coffee.component.lane.Lane;
 import org.coffee.component.lane.LaneInbound;
@@ -13,6 +13,7 @@ import static org.coffee.component.attribute.Location.EAST;
 import static org.coffee.component.attribute.Location.NORTH;
 import static org.coffee.component.attribute.Location.SOUTH;
 import static org.coffee.component.attribute.Location.WEST;
+import static org.coffee.component.attribute.RouteType.CONDITIONAL;
 import static org.coffee.component.attribute.RouteType.GRADE_SEPARATED;
 import static org.coffee.component.attribute.RouteType.NORMAL;
 
@@ -32,6 +33,8 @@ public class IntersectionUtils {
             return isTheSameDirection(route1.getInboundLane(), route2.getInboundLane());
         } else if (route2.getType() == GRADE_SEPARATED) {
             return notCrossingNormalWithGradeSeparatedRoute(route1, route2);
+        } else if (route2.getType() == CONDITIONAL) {
+            return !conditionalInTheSameDirectionAsNormal(route1, route2);
         }
         return true;
     }
@@ -267,12 +270,18 @@ public class IntersectionUtils {
                         .allMatch(direction2 -> isNotCrossingDirection(route1.getInboundLane().getLocation(), direction1, route2.getInboundLane().getLocation(), direction2)));
     }
 
+    private static boolean conditionalInTheSameDirectionAsNormal(Route route1, Route route2) {
+        return route1.getInboundLane().getLocation() == route2.getInboundLane().getLocation();
+    }
+
     private static boolean isAllowedToGoConditionalTurn(Route route1, Route route2) {
         if (route2.getType() == GRADE_SEPARATED) {
             return lanesNotCrossing(route1, route2) &&
                     pedestrianLanesNotCrossingInboundLane(route1, route2.getPedestrianLanes()) &&
                     pedestrianLanesNotCrossingOutboundLanes(route1, route2.getPedestrianLanes()) &&
                     directionsNotCrossing(route1, route2);
+        } else if (route2.getType() == NORMAL) {
+            return !conditionalInTheSameDirectionAsNormal(route1, route2);
         }
         return true;
     }
