@@ -1,5 +1,6 @@
 package org.coffee.component;
 
+import org.coffee.component.cycle.Cycle;
 import org.coffee.component.route.Route;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

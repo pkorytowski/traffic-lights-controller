@@ -1,5 +1,6 @@
 package org.coffee.utils;
 
+import org.coffee.component.intersection.IntersectionUtils;
 import org.coffee.component.lane.Lane;
 import org.coffee.component.lane.LaneInbound;
 import org.coffee.component.lane.LaneOutbound;
@@ -17,6 +18,7 @@ import static org.coffee.component.attribute.Location.EAST;
 import static org.coffee.component.attribute.Location.NORTH;
 import static org.coffee.component.attribute.Location.SOUTH;
 import static org.coffee.component.attribute.Location.WEST;
+import static org.coffee.component.attribute.RouteType.CONDITIONAL;
 import static org.coffee.component.attribute.RouteType.GRADE_SEPARATED;
 import static org.coffee.component.attribute.RouteType.NORMAL;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -81,6 +83,13 @@ class IntersectionUtilsTest {
         assertFalse(IntersectionUtils.isAllowedToGo(route2, route));
     }
 
+    @Test
+    void shouldReturnFalseIfNormalAndConditionalRouteAreInSameDirection() {
+        Route route = getSimpleRoute();
+        Route route2 = getConditionalRoute();
+        assertFalse(IntersectionUtils.isAllowedToGo(route, route2));
+    }
+
     private Route getSimpleRoute() {
         LaneInbound inboundLane = new LaneInbound("id", "name", NORTH, camera1);
         LaneOutbound outboundLane = new LaneOutbound("id", "name", SOUTH, true);
@@ -100,6 +109,13 @@ class IntersectionUtilsTest {
         LaneOutbound outboundLane = new LaneOutbound("id", "name", WEST, true);
         TrafficLight trafficLight = new RoadTrafficLight("id", "name");
         return new Route("id2", NORMAL, inboundLane, singletonList(outboundLane), singletonList(trafficLight));
+    }
+
+    private Route getConditionalRoute() {
+        LaneInbound inboundLane = new LaneInbound("id", "name", NORTH, camera3);
+        LaneOutbound outboundLane = new LaneOutbound("id", "name", WEST, true);
+        TrafficLight trafficLight = new RoadTrafficLight("id", "name");
+        return new Route("id2", CONDITIONAL, inboundLane, singletonList(outboundLane), singletonList(trafficLight));
     }
 
     private Route getGradeSeparatedRoute() {

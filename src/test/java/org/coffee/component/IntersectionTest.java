@@ -2,6 +2,9 @@ package org.coffee.component;
 
 import org.coffee.component.attribute.WorkingMode;
 
+import org.coffee.component.cycle.Cycle;
+import org.coffee.component.cycle.IncorrectRoutesException;
+import org.coffee.component.intersection.Intersection;
 import org.coffee.component.lane.LaneInbound;
 import org.coffee.component.lane.LaneOutbound;
 import org.coffee.component.light.RoadTrafficLight;
@@ -77,6 +80,19 @@ class IntersectionTest {
         Cycle cycle1 = new Cycle("id", List.of(route1), 3);
         try {
             sut = new Intersection("id", "name", List.of(route1, route2), singletonList(cycle1), WorkingMode.CYCLES);
+        } catch (IncorrectRoutesException e) {
+            assertEquals("Cycle id contains routes that cannot be green at the same time", e.getMessage());
+        }
+    }
+
+    @Test
+    void shouldThrowIfOneRouteIsIncompatible() {
+        Route route1 = getSimpleRoute();
+        Route route2 = getSimpleRoute3();
+        Route route3 = getSimpleRoute2();
+        Cycle cycle1 = new Cycle("id", List.of(route1, route2, route3), 3);
+        try {
+            sut = new Intersection("id", "name", List.of(route1, route2, route3), singletonList(cycle1), WorkingMode.CYCLES);
         } catch (IncorrectRoutesException e) {
             assertEquals("Cycle id contains routes that cannot be green at the same time", e.getMessage());
         }
@@ -173,5 +189,12 @@ class IntersectionTest {
         LaneOutbound outboundLane = new LaneOutbound("id", "name", NORTH, true);
         TrafficLight trafficLight = new RoadTrafficLight("id", "name");
         return new Route("id2", NORMAL, inboundLane, singletonList(outboundLane), singletonList(trafficLight));
+    }
+
+    private Route getSimpleRoute3() {
+        LaneInbound inboundLane = new LaneInbound("id", "name", SOUTH, camera3);
+        LaneOutbound outboundLane = new LaneOutbound("id", "name", EAST, true);
+        TrafficLight trafficLight = new RoadTrafficLight("id", "name");
+        return new Route("id3", NORMAL, inboundLane, singletonList(outboundLane), singletonList(trafficLight));
     }
 }
