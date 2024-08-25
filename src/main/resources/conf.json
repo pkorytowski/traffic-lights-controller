@@ -1,0 +1,112 @@
+{
+  "id": "abc",
+  "name": "abc",
+  "inboundLanes" : [
+    {
+      "id": "lane1",
+      "name": "lane1",
+      "location": "NORTH"
+    },
+    {
+      "id": "lane3",
+      "name": "lane3",
+      "location": "SOUTH"
+    },
+    {
+      "id": "lane5",
+      "name": "lane5",
+      "location": "EAST"
+    },
+    {
+      "id": "lane7",
+      "name": "lane7",
+      "location": "WEST"
+    }
+  ],
+  "outboundLanes" : [
+    {
+      "id": "lane2",
+      "name": "lane2",
+      "location": "NORTH",
+      "allowConditionalTurn": true
+    },
+    {
+      "id": "lane4",
+      "name": "lane4",
+      "location": "SOUTH",
+      "allowConditionalTurn": true
+    },
+    {
+      "id": "lane6",
+      "name": "lane6",
+      "location": "EAST",
+      "allowConditionalTurn": false
+    },
+    {
+      "id": "lane8",
+      "name": "lane8",
+      "location": "WEST",
+      "allowConditionalTurn": false
+    }
+  ],
+  "trafficLights": [
+    {
+      "id": "light1",
+      "name": "light1",
+      "type": "S1"
+    },
+    {
+      "id": "light2",
+      "name": "light2",
+      "type": "S1"
+    },
+    {
+      "id": "light3",
+      "name": "light3",
+      "type": "S1"
+    },
+    {
+      "id": "light4",
+      "name": "light4",
+      "type": "S1"
+    }
+  ],
+  "routes": [
+    {
+      "id": "route1",
+      "inboundLane": "lane1",
+      "outboundLanes": ["lane4", "lane6", "lane8"],
+      "trafficLights": ["light1"]
+    },
+    {
+      "id": "route2",
+      "inboundLane": "lane3",
+      "outboundLanes": ["lane2", "lane6", "lane8"],
+      "trafficLights": ["light2"]
+    },
+    {
+      "id": "route3",
+      "inboundLane": "lane5",
+      "outboundLanes": ["lane2", "lane4", "lane8"],
+      "trafficLights": ["light3"]
+    },
+    {
+      "id": "route4",
+      "inboundLane": "lane7",
+      "outboundLanes": ["lane2", "lane4", "lane6"],
+      "trafficLights": ["light4"]
+    }
+  ],
+  "cycles": [
+    {
+      "id": "cycle1",
+      "routes": ["route1", "route2"],
+      "greenTime": 20
+    },
+    {
+      "id": "cycle2",
+      "routes": ["route3", "route4"],
+      "greenTime": 10
+    }
+  ]
+}
