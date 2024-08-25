@@ -93,7 +93,7 @@ public class IntersectionComponentsCreator {
         var tl6 = new RoadTrafficLight("TL6", "TL6");
         var tl5 = new ConditionalArrowTrafficLight("TL5", "TL5");
         var tl7 = new RoadTrafficLight("TL7", "TL7");
-        var tl8 = new RoadTrafficLight("TL8", "TL8");
+        var tl8 = new ConditionalArrowTrafficLight("TL8", "TL8");
 
         var pl1 = new PedestrianLane("PL1", "PL1", SOUTH, List.of(lo5, lo6));
         var pl2 = new PedestrianLane("PL2", "PL2", SOUTH, List.of(li5, li6));
