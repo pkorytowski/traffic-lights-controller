@@ -19,7 +19,7 @@ import static org.coffee.component.attribute.Location.NORTH;
 import static org.coffee.component.attribute.Location.SOUTH;
 import static org.coffee.component.attribute.Location.WEST;
 import static org.coffee.component.attribute.RouteType.CONDITIONAL;
-import static org.coffee.component.attribute.RouteType.GRADE_SEPARATED;
+import static org.coffee.component.attribute.RouteType.ISOLATED;
 import static org.coffee.component.attribute.RouteType.NORMAL;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -54,23 +54,23 @@ class IntersectionUtilsTest {
     }
 
     @Test
-    void shouldReturnFalseCrossingWithGradeSeparatedRoute() {
+    void shouldReturnFalseCrossingWithIsolatedRoute() {
         Route route = getSimpleRoute();
-        Route route2 = getGradeSeparatedRoute();
+        Route route2 = getIsolatedRoute();
         assertFalse(IntersectionUtils.isAllowedToGo(route, route2));
     }
 
     @Test
-    void shouldReturnFalseWhenDirectionsCrossingInGradeSeparated() {
-        Route route = getGradeSeparatedRoute();
-        Route route2 = getGradeSeparatedRoute2();
+    void shouldReturnFalseWhenDirectionsCrossingInIsolated() {
+        Route route = getIsolatedRoute();
+        Route route2 = getIsolatedRoute2();
         assertFalse(IntersectionUtils.isAllowedToGo(route, route2));
     }
 
     @Test
     void shouldReturnFalseWhenPedestrianLaneCrossingInboundLane() {
         Route route = getSimpleRoute2();
-        Route route2 = getGradeSeparatedRouteWithPedestrianLane(route.getInboundLane());
+        Route route2 = getIsolatedRouteWithPedestrianLane(route.getInboundLane());
         assertFalse(IntersectionUtils.isAllowedToGo(route, route2));
         assertFalse(IntersectionUtils.isAllowedToGo(route2, route));
     }
@@ -78,7 +78,7 @@ class IntersectionUtilsTest {
     @Test
     void shouldReturnFalseWhenPedestrianLaneCrossingOutboundLane() {
         Route route = getSimpleRoute();
-        Route route2 = getGradeSeparatedRouteWithPedestrianLane(route.getOutboundLanes().getFirst());
+        Route route2 = getIsolatedRouteWithPedestrianLane(route.getOutboundLanes().getFirst());
         assertFalse(IntersectionUtils.isAllowedToGo(route, route2));
         assertFalse(IntersectionUtils.isAllowedToGo(route2, route));
     }
@@ -118,26 +118,26 @@ class IntersectionUtilsTest {
         return new Route("id2", CONDITIONAL, inboundLane, singletonList(outboundLane), singletonList(trafficLight));
     }
 
-    private Route getGradeSeparatedRoute() {
+    private Route getIsolatedRoute() {
         LaneInbound inboundLane = new LaneInbound("id", "name", SOUTH, camera2);
         LaneOutbound outboundLane = new LaneOutbound("id", "name", WEST, true);
         TrafficLight trafficLight = new RoadTrafficLight("id", "name");
-        return new Route("id2", GRADE_SEPARATED, inboundLane, singletonList(outboundLane), singletonList(trafficLight));
+        return new Route("id2", ISOLATED, inboundLane, singletonList(outboundLane), singletonList(trafficLight));
     }
 
-    private Route getGradeSeparatedRoute2() {
+    private Route getIsolatedRoute2() {
         LaneInbound inboundLane = new LaneInbound("id", "name", NORTH, camera2);
         LaneOutbound outboundLane = new LaneOutbound("id", "name", SOUTH, true);
         TrafficLight trafficLight = new RoadTrafficLight("id", "name");
-        return new Route("id2", GRADE_SEPARATED, inboundLane, singletonList(outboundLane), singletonList(trafficLight));
+        return new Route("id2", ISOLATED, inboundLane, singletonList(outboundLane), singletonList(trafficLight));
     }
 
-    private Route getGradeSeparatedRouteWithPedestrianLane(Lane crossingLane) {
+    private Route getIsolatedRouteWithPedestrianLane(Lane crossingLane) {
         LaneInbound inboundLane = new LaneInbound("id", "name", SOUTH, camera2);
         LaneOutbound outboundLane = new LaneOutbound("id", "name", WEST, true);
         TrafficLight trafficLight = new RoadTrafficLight("id","name");
         PedestrianLane pedestrianLane = new PedestrianLane("id", "name", NORTH, singletonList(crossingLane));
-        return new Route("id2", GRADE_SEPARATED, inboundLane, singletonList(outboundLane), singletonList(trafficLight), singletonList(pedestrianLane));
+        return new Route("id2", ISOLATED, inboundLane, singletonList(outboundLane), singletonList(trafficLight), singletonList(pedestrianLane));
     }
 
 }

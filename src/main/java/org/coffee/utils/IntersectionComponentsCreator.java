@@ -20,7 +20,7 @@ import static org.coffee.component.attribute.Location.NORTH;
 import static org.coffee.component.attribute.Location.SOUTH;
 import static org.coffee.component.attribute.Location.WEST;
 import static org.coffee.component.attribute.RouteType.CONDITIONAL;
-import static org.coffee.component.attribute.RouteType.GRADE_SEPARATED;
+import static org.coffee.component.attribute.RouteType.ISOLATED;
 import static org.coffee.component.attribute.RouteType.NORMAL;
 
 public class IntersectionComponentsCreator {
@@ -107,10 +107,10 @@ public class IntersectionComponentsCreator {
         var r1 = new Route("R1", NORMAL, li1, List.of(lo1, lo3, lo5), singletonList(tl1), List.of(pl5, pl6));
         var r2 = new Route("R2", NORMAL, li2, List.of(lo2, lo4, lo6), singletonList(tl2), List.of(pl1, pl2));
         var r3 = new Route("R3", NORMAL, li3, List.of(lo1, lo6), singletonList(tl3), List.of(pl7, pl8));
-        var r4 = new Route("R4", GRADE_SEPARATED, li4, List.of(lo2, lo5), singletonList(tl4), singletonList(pl2));
+        var r4 = new Route("R4", ISOLATED, li4, List.of(lo2, lo5), singletonList(tl4), singletonList(pl2));
         var r5 = new Route("R5", CONDITIONAL, li1, singletonList(lo3), singletonList(tl5), List.of(pl4, pl5));
         var r6 = new Route("R6", NORMAL, li5, List.of(lo2, lo3), singletonList(tl6), List.of(pl3, pl4));
-        var r7 = new Route("R7", GRADE_SEPARATED, li6, List.of(lo4, lo1), singletonList(tl7), singletonList(pl6));
+        var r7 = new Route("R7", ISOLATED, li6, List.of(lo4, lo1), singletonList(tl7), singletonList(pl6));
         var r8 = new Route("R8", CONDITIONAL, li2, singletonList(lo6), singletonList(tl8), List.of(pl8, pl1));
 
         var c1 = new Cycle("C1", List.of(r1, r2), 3);

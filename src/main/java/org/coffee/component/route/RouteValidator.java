@@ -19,7 +19,7 @@ public class RouteValidator {
 
         switch (route.getType()) {
             case NORMAL -> validateNormalRoute(route);
-            case GRADE_SEPARATED -> validateGradeSeparatedRoute(route);
+            case ISOLATED -> validateGradeSeparatedRoute(route);
             case CONDITIONAL -> validateConditionalRoute(route);
             default -> { }
         }

@@ -14,7 +14,7 @@ import static org.coffee.component.attribute.Location.NORTH;
 import static org.coffee.component.attribute.Location.SOUTH;
 import static org.coffee.component.attribute.Location.WEST;
 import static org.coffee.component.attribute.RouteType.CONDITIONAL;
-import static org.coffee.component.attribute.RouteType.GRADE_SEPARATED;
+import static org.coffee.component.attribute.RouteType.ISOLATED;
 import static org.coffee.component.attribute.RouteType.NORMAL;
 
 public class IntersectionUtils {
@@ -23,7 +23,7 @@ public class IntersectionUtils {
         var type = route1.getType();
         return switch (type) {
             case NORMAL -> isAllowedToGoNormal(route1, route2);
-            case GRADE_SEPARATED -> isAllowedToGoGradeSeparated(route1, route2);
+            case ISOLATED -> isAllowedToGoIsolated(route1, route2);
             case CONDITIONAL -> isAllowedToGoConditionalTurn(route1, route2);
         };
     }
@@ -31,15 +31,15 @@ public class IntersectionUtils {
     private static boolean isAllowedToGoNormal(Route route1, Route route2) {
         if (route2.getType() == NORMAL) {
             return isTheSameDirection(route1.getInboundLane(), route2.getInboundLane());
-        } else if (route2.getType() == GRADE_SEPARATED) {
-            return notCrossingNormalWithGradeSeparatedRoute(route1, route2);
+        } else if (route2.getType() == ISOLATED) {
+            return notCrossingNormalWithIsolatedRoute(route1, route2);
         } else if (route2.getType() == CONDITIONAL) {
             return !conditionalInTheSameDirectionAsNormal(route1, route2);
         }
         return true;
     }
 
-    private static boolean notCrossingNormalWithGradeSeparatedRoute(Route route1, Route route2) {
+    private static boolean notCrossingNormalWithIsolatedRoute(Route route1, Route route2) {
         return lanesNotCrossing(route1, route2) &&
                 pedestrianLanesNotCrossingInboundLane(route1, route2.getPedestrianLanes()) &&
                 pedestrianLanesNotCrossingOutboundLanes(route1, route2.getPedestrianLanes()) &&
@@ -47,7 +47,7 @@ public class IntersectionUtils {
                 directionsNotCrossing(route1, route2);
     }
 
-    private static boolean isAllowedToGoGradeSeparated(Route route1, Route route2) {
+    private static boolean isAllowedToGoIsolated(Route route1, Route route2) {
         return lanesNotCrossing(route1, route2) &&
                 pedestrianLanesNotCrossingInboundLane(route1, route2.getPedestrianLanes()) &&
                 pedestrianLanesNotCrossingOutboundLanes(route1, route2.getPedestrianLanes()) &&
@@ -275,7 +275,7 @@ public class IntersectionUtils {
     }
 
     private static boolean isAllowedToGoConditionalTurn(Route route1, Route route2) {
-        if (route2.getType() == GRADE_SEPARATED) {
+        if (route2.getType() == ISOLATED) {
             return lanesNotCrossing(route1, route2) &&
                     pedestrianLanesNotCrossingInboundLane(route1, route2.getPedestrianLanes()) &&
                     pedestrianLanesNotCrossingOutboundLanes(route1, route2.getPedestrianLanes()) &&

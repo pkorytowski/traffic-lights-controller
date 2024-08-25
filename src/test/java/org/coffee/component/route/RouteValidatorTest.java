@@ -18,7 +18,7 @@ import static org.coffee.component.attribute.Location.NORTH;
 import static org.coffee.component.attribute.Location.SOUTH;
 import static org.coffee.component.attribute.Location.WEST;
 import static org.coffee.component.attribute.RouteType.CONDITIONAL;
-import static org.coffee.component.attribute.RouteType.GRADE_SEPARATED;
+import static org.coffee.component.attribute.RouteType.ISOLATED;
 import static org.coffee.component.attribute.RouteType.NORMAL;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.MockitoAnnotations.openMocks;
@@ -52,7 +52,7 @@ class RouteValidatorTest {
         LaneOutbound outboundLane3 = new LaneOutbound("id", "name", WEST, true);
         PedestrianLane pedestrianLane = new PedestrianLane("id", "name", WEST, singletonList(outboundLane3));
         List<TrafficLight> trafficLights = List.of(new RoadTrafficLight("id", "name"));
-        Route route = new Route("id", GRADE_SEPARATED, inboundLane, List.of(outboundLane, outboundLane2), trafficLights, singletonList(pedestrianLane));
+        Route route = new Route("id", ISOLATED, inboundLane, List.of(outboundLane, outboundLane2), trafficLights, singletonList(pedestrianLane));
         assertDoesNotThrow(() -> RouteValidator.validateRoute(route));
     }
 
@@ -61,7 +61,7 @@ class RouteValidatorTest {
         LaneInbound inboundLane = new LaneInbound("id", "name", NORTH, camera);
         LaneOutbound outboundLane = new LaneOutbound("id", "name", WEST, true);
         List<TrafficLight> trafficLights = List.of(new RoadTrafficLight("id", "name"));
-        Route route = new Route("id", GRADE_SEPARATED, inboundLane, singletonList(outboundLane), trafficLights);
+        Route route = new Route("id", ISOLATED, inboundLane, singletonList(outboundLane), trafficLights);
         assertDoesNotThrow(() -> RouteValidator.validateRoute(route));
     }
 
@@ -126,7 +126,7 @@ class RouteValidatorTest {
         LaneOutbound outboundLane2 = new LaneOutbound("id", "name", EAST, true);
         PedestrianLane pedestrianLane = new PedestrianLane("id", "name", EAST, singletonList(outboundLane2));
         List<TrafficLight> trafficLights = List.of(new RoadTrafficLight("id", "name"));
-        Route route = new Route("id", GRADE_SEPARATED, inboundLane, List.of(outboundLane, outboundLane2), trafficLights, singletonList(pedestrianLane));
+        Route route = new Route("id", ISOLATED, inboundLane, List.of(outboundLane, outboundLane2), trafficLights, singletonList(pedestrianLane));
         InvalidRouteException exception = assertThrows(InvalidRouteException.class, () -> RouteValidator.validateRoute(route));
         assertEquals("Pedestrian lane cannot cross the outbound lane", exception.getMessage());
     }

@@ -23,7 +23,7 @@ import static org.coffee.component.attribute.Location.NORTH;
 import static org.coffee.component.attribute.Location.SOUTH;
 import static org.coffee.component.attribute.Location.WEST;
 import static org.coffee.component.attribute.RouteType.CONDITIONAL;
-import static org.coffee.component.attribute.RouteType.GRADE_SEPARATED;
+import static org.coffee.component.attribute.RouteType.ISOLATED;
 import static org.coffee.component.attribute.RouteType.NORMAL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -174,7 +174,7 @@ class IntersectionTest {
         LaneInbound inboundLane = new LaneInbound("id", "name", SOUTH, camera2);
         LaneOutbound outboundLane = new LaneOutbound("id", "name", WEST, true);
         TrafficLight trafficLight = new RoadTrafficLight("id", "name");
-        return new Route("id2", GRADE_SEPARATED, inboundLane, singletonList(outboundLane), singletonList(trafficLight));
+        return new Route("id2", ISOLATED, inboundLane, singletonList(outboundLane), singletonList(trafficLight));
     }
 
     private Route getConditionalRoute() {
